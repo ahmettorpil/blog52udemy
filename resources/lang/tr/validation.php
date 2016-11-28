@@ -114,9 +114,17 @@ return [
     */
 
     'attributes' => [
-        'email' => 'Eposta',
+        'email'     => 'Eposta',
         'password'  => 'Şifre',
-        'name'      => 'Ad Soyad'
+        'name'      => 'Ad Soyad',
+        "baslik"    => "Başlık",
+        "author"    => "Yazar",
+        "aciklama"  => "Açıklama",
+        "keywords"  => "Keywords",
+        "facebook"  => "Facebook",
+        "twitter"   => "Twitter",
+        "github"    => "Github",
+        "resim"     => "Resim"
     ],
 
 ];
