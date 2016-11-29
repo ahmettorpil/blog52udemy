@@ -124,7 +124,9 @@ return [
         "facebook"  => "Facebook",
         "twitter"   => "Twitter",
         "github"    => "Github",
-        "resim"     => "Resim"
+        "resim"     => "Resim",
+        "kategori_id"=> "Kategori",
+        "icerik"    => "İçerik"
     ],
 
 ];
