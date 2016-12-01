@@ -47,3 +47,6 @@ Route::group(["middleware" => ["yazar_mi","auth"]], function (){
 
 Route::get("yazarlik-talebi", "YazarlikTalepController@index");
 Route::post("yazarlik-talebi/gonder", "YazarlikTalepController@gonder");
+
+Route::get("yayinlanan-makale/{slug}", "MakaleController@index");
+Route::get("yayinlanan-kategori/{slug}", "KategoriController@index");

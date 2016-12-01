@@ -23,7 +23,7 @@ class MakaleController extends Controller
     public function index()
     {
         //
-        $makaleler = Makale::where("user_id",Auth::user()->id)->paginate(10);
+        $makaleler = Makale::where("user_id",Auth::user()->id)->orderBy("updated_at", "desc")->paginate(10);
         return view("yazar.makale_index", compact("makaleler"));
 
     }
@@ -68,7 +68,7 @@ class MakaleController extends Controller
             $time = time();
             $resim_isim = $time.".".$resim->getClientOriginalExtension();
             $thumb = "thumb_".$time.".".$resim->getClientOriginalExtension();
-            Image::make($resim->getRealPath())->fit(1900,872)->fill(array(0,0,0,0.5))->save(public_path("uploads/".$resim_isim));
+            Image::make($resim->getRealPath())->fit(1900,872)->fill(array(0,0,0,0.65))->save(public_path("uploads/".$resim_isim));
             Image::make($resim->getRealPath())->fit(600,400)->save(public_path("uploads/".$thumb));
             $input = [];
             $input["isim"] = $resim_isim;
@@ -76,7 +76,7 @@ class MakaleController extends Controller
             $input["imageable_type"] = "App\Makale";
             Resim::create($input);
         }
-        Session::flash("durum",1);
+        Session::flash("durum",2);
         return redirect("/makalem");
 
     }
@@ -124,6 +124,7 @@ class MakaleController extends Controller
         ]);
 
         $input = $request->all();
+        $input["durum"] = 0;
         $makale = Makale::find($id);
         $makale->update($input);
 
@@ -133,11 +134,11 @@ class MakaleController extends Controller
 
             $resim_isim = $makale->resim->isim;
             $thumb = "thumb_".$makale->resim->isim;
-            Image::make($resim->getRealPath())->fit(1900,872)->fill(array(0,0,0,0.5))->save(public_path("uploads/".$resim_isim));
+            Image::make($resim->getRealPath())->fit(1900,872)->fill(array(0,0,0,0.65))->save(public_path("uploads/".$resim_isim));
             Image::make($resim->getRealPath())->fit(600,400)->save(public_path("uploads/".$thumb));
 
         }
-        Session::flash("durum",1);
+        Session::flash("durum",2);
         return redirect("/makalem");
     }
 
@@ -152,8 +153,8 @@ class MakaleController extends Controller
         //
         $makale_resim = Makale::find($id)->resim->isim;
 
-        unlink(public_path("uploads/".$makale_resim));
-        unlink(public_path("uploads/thumb_".$makale_resim));
+        @unlink(public_path("uploads/".$makale_resim));
+        @unlink(public_path("uploads/thumb_".$makale_resim));
 
         Resim::where("imageable_id",$id)->where("imageable_type","App\Makale")->delete();
 
